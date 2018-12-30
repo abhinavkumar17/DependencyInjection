@@ -1,4 +1,4 @@
-package com.example.admin.di.screens.questionlist.questions;
+package com.example.admin.di.questions;
 
 import com.google.gson.annotations.SerializedName;
 

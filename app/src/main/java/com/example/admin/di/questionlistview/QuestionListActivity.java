@@ -1,15 +1,18 @@
-package com.example.admin.di.screens.screens.questionlistview;
+package com.example.admin.di.questionlistview;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
+import com.example.admin.di.MyApplication;
+import com.example.admin.di.questiondetails.QuestionDetailsActivity;
+import com.example.admin.di.questions.Question;
 import com.example.admin.di.screens.ServerErrorDialogFragment;
-import com.example.admin.di.screens.questionlist.questions.Question;
 import com.example.admin.di.screens.screens.common.dialog.DialogsManager;
-import com.example.admin.di.screens.screens.questiondetails.QuestionDetailsActivity;
 
 import java.util.List;
+
+import retrofit2.Retrofit;
 
 public class QuestionListActivity extends AppCompatActivity implements
         FetchQuestionsListUseCase.Listener,QuestionsListViewMvc.Listener {
@@ -27,8 +30,9 @@ public class QuestionListActivity extends AppCompatActivity implements
 
         mViewMvc = new QuestionsListViewMvcImpl(LayoutInflater.from(this), null);
 
-        // init retrofit
-        mFetchQuestionsListUseCase = new FetchQuestionsListUseCase();
+        Retrofit retrofit = ((MyApplication) getApplication()).getRetrofit();
+
+        mFetchQuestionsListUseCase = new FetchQuestionsListUseCase(retrofit);
     }
 
     @Override
@@ -60,15 +64,6 @@ public class QuestionListActivity extends AppCompatActivity implements
     @Override
     public void onQuestionClicked(Question question) {
         QuestionDetailsActivity.start(getApplicationContext(),question.getId());
-    }
-
-    // --------------------------------------------------------------------------------------------
-    // RecyclerView adapter
-    // --------------------------------------------------------------------------------------------
-
-
-    public interface OnQuestionClickListener {
-        void onQuestionClicked(com.example.admin.di.screens.questionlist.questions.Question question);
     }
 }
 

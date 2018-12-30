@@ -1,4 +1,4 @@
-package com.example.admin.di.screens.screens.questiondetails;
+package com.example.admin.di.questiondetails;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
+import com.example.admin.di.MyApplication;
 import com.example.admin.di.R;
 import com.example.admin.di.screens.ServerErrorDialogFragment;
 import com.example.admin.di.screens.screens.common.dialog.DialogsManager;
+
+import retrofit2.Retrofit;
 
 public class QuestionDetailsActivity extends AppCompatActivity implements
         QuestionDetailsViewMvc.Listener,FetchQuestionDetailsUseCase.Listener {
@@ -37,7 +40,9 @@ public class QuestionDetailsActivity extends AppCompatActivity implements
 
         setContentView(mViewMvc.getRootView());
 
-        mFetchQuestionDetailsUseCase = new FetchQuestionDetailsUseCase();
+        Retrofit retrofit = ((MyApplication) getApplication()).getRetrofit();
+
+        mFetchQuestionDetailsUseCase = new FetchQuestionDetailsUseCase(retrofit);
 
         //noinspection ConstantConditions
         mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);

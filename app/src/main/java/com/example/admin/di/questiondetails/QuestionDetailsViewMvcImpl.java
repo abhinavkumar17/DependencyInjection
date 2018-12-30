@@ -1,11 +1,13 @@
-package com.example.admin.di.screens.screens.questiondetails;
+package com.example.admin.di.questiondetails;
 
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.example.admin.di.R;
-import com.example.admin.di.screens.screens.common.BaseViewMvc;
+import com.example.admin.di.common.BaseViewMvc;
+
 
 public class QuestionDetailsViewMvcImpl extends BaseViewMvc<QuestionDetailsViewMvc.Listener>
         implements QuestionDetailsViewMvc {

@@ -1,4 +1,4 @@
-package com.example.admin.di.screens.screens.common;
+package com.example.admin.di.common;
 
 public interface ObservableViewMvc <ListenerType> extends ViewMvc {
 

@@ -1,4 +1,4 @@
-package com.example.admin.di.screens.screens.common;
+package com.example.admin.di.common;
 
 import android.content.Context;
 import android.support.annotation.IdRes;

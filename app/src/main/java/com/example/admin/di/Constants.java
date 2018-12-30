@@ -1,4 +1,4 @@
-package com.example.admin.di.screens;
+package com.example.admin.di;
 
 public final class Constants {
     private Constants() {}

@@ -1,4 +1,4 @@
-package com.example.admin.di.screens.screens.questionlistview;
+package com.example.admin.di.questionlistview;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -6,9 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.example.admin.di.R;
-import com.example.admin.di.screens.screens.common.BaseViewMvc;
-import static java.security.AccessController.getContext;
+import com.example.admin.di.common.BaseViewMvc;
+import com.example.admin.di.questions.Question;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class QuestionsListViewMvcImpl extends BaseViewMvc<QuestionsListViewMvc.L
 
         mQuestionsAdapter = new QuestionsAdapter(new OnQuestionClickListener() {
             @Override
-            public void onQuestionClicked(com.example.admin.di.screens.questionlist.questions.Question question) {
+            public void onQuestionClicked(Question question) {
                 for (Listener listener : getListeners()) {
                     listener.onQuestionClicked(question);
                 }
@@ -39,7 +40,7 @@ public class QuestionsListViewMvcImpl extends BaseViewMvc<QuestionsListViewMvc.L
     }
 
     @Override
-    public void bindQuestions(List<com.example.admin.di.screens.questionlist.questions.Question> questions) {
+    public void bindQuestions(List<Question> questions) {
         mQuestionsAdapter.bindData(questions);
     }
 
@@ -48,14 +49,14 @@ public class QuestionsListViewMvcImpl extends BaseViewMvc<QuestionsListViewMvc.L
     // --------------------------------------------------------------------------------------------
 
     public interface OnQuestionClickListener {
-        void onQuestionClicked(com.example.admin.di.screens.questionlist.questions.Question question);
+        void onQuestionClicked(Question question);
     }
 
     public static class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.QuestionViewHolder> {
 
         private final OnQuestionClickListener mOnQuestionClickListener;
 
-        private List<com.example.admin.di.screens.questionlist.questions.Question> mQuestionsList = new ArrayList<>(0);
+        private List<Question> mQuestionsList = new ArrayList<>(0);
 
         public class QuestionViewHolder extends RecyclerView.ViewHolder {
             public TextView mTitle;
@@ -70,7 +71,7 @@ public class QuestionsListViewMvcImpl extends BaseViewMvc<QuestionsListViewMvc.L
             mOnQuestionClickListener = onQuestionClickListener;
         }
 
-        public void bindData(List<com.example.admin.di.screens.questionlist.questions.Question> questions) {
+        public void bindData(List<Question> questions) {
             mQuestionsList = new ArrayList<>(questions);
             notifyDataSetChanged();
         }

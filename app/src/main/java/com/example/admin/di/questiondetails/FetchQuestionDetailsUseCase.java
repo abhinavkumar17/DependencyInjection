@@ -1,13 +1,15 @@
-package com.example.admin.di.screens.screens.questiondetails;
+package com.example.admin.di.questiondetails;
 
 import android.support.annotation.Nullable;
-import com.example.admin.di.screens.Constants;
-import com.example.admin.di.screens.screens.common.BaseObservable;
+
+import com.example.admin.di.common.BaseObservable;
+import com.example.admin.di.questions.SingleQuestionResponseSchema;
+import com.example.admin.di.questions.StackOverflowApi;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FetchQuestionDetailsUseCase extends BaseObservable<FetchQuestionDetailsUseCase.Listener> {
 
@@ -16,18 +18,13 @@ public class FetchQuestionDetailsUseCase extends BaseObservable<FetchQuestionDet
         void onFetchOfQuestionDetailsFailed();
     }
 
-    private final com.example.admin.di.screens.questionlist.questions.StackOverflowApi mStackoverflowApi;
+    private final StackOverflowApi mStackoverflowApi;
 
     @Nullable
-    Call<com.example.admin.di.screens.questionlist.questions.SingleQuestionResponseSchema> mCall;
+    Call<SingleQuestionResponseSchema> mCall;
 
-    public FetchQuestionDetailsUseCase() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        mStackoverflowApi = retrofit.create(com.example.admin.di.screens.questionlist.questions.StackOverflowApi.class);
+    public FetchQuestionDetailsUseCase(Retrofit retrofit) {
+        mStackoverflowApi = retrofit.create(StackOverflowApi.class);
     }
 
     public void fetchQuestionDetailsAndNotify(String questionId) {
@@ -35,9 +32,10 @@ public class FetchQuestionDetailsUseCase extends BaseObservable<FetchQuestionDet
         cancelCurrentFetchIfActive();
 
         mCall = mStackoverflowApi.questionDetails(questionId);
-        mCall.enqueue(new Callback<com.example.admin.di.screens.questionlist.questions.SingleQuestionResponseSchema>() {
+        mCall.enqueue(new Callback<SingleQuestionResponseSchema>() {
             @Override
-            public void onResponse(Call<com.example.admin.di.screens.questionlist.questions.SingleQuestionResponseSchema> call, Response<com.example.admin.di.screens.questionlist.questions.SingleQuestionResponseSchema> response) {
+            public void onResponse(Call<SingleQuestionResponseSchema> call,
+                                   Response<SingleQuestionResponseSchema> response) {
                 if (response.isSuccessful()) {
                     notifySucceeded(response.body().getQuestion());
                 } else {
@@ -46,7 +44,7 @@ public class FetchQuestionDetailsUseCase extends BaseObservable<FetchQuestionDet
             }
 
             @Override
-            public void onFailure(Call<com.example.admin.di.screens.questionlist.questions.SingleQuestionResponseSchema> call, Throwable t) {
+            public void onFailure(Call<SingleQuestionResponseSchema> call, Throwable t) {
                 notifyFailed();
             }
         });

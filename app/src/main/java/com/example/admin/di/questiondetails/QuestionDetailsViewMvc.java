@@ -1,6 +1,7 @@
-package com.example.admin.di.screens.screens.questiondetails;
+package com.example.admin.di.questiondetails;
 
-import com.example.admin.di.screens.screens.common.ObservableViewMvc;
+
+import com.example.admin.di.common.ObservableViewMvc;
 
 public interface QuestionDetailsViewMvc extends ObservableViewMvc<QuestionDetailsViewMvc.Listener> {
 
