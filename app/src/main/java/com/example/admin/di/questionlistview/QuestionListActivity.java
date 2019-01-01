@@ -1,38 +1,33 @@
 package com.example.admin.di.questionlistview;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 
-import com.example.admin.di.MyApplication;
+import com.example.admin.di.common.BaseActivity;
+import com.example.admin.di.common.dialog.DialogsManager;
+import com.example.admin.di.common.dialog.ServerErrorDialogFragment;
 import com.example.admin.di.questiondetails.QuestionDetailsActivity;
 import com.example.admin.di.questions.Question;
-import com.example.admin.di.screens.ServerErrorDialogFragment;
-import com.example.admin.di.screens.screens.common.dialog.DialogsManager;
 
 import java.util.List;
 
-import retrofit2.Retrofit;
-
-public class QuestionListActivity extends AppCompatActivity implements
+public class QuestionListActivity extends BaseActivity implements
         FetchQuestionsListUseCase.Listener,QuestionsListViewMvc.Listener {
+
+
 
     private static final int NUM_OF_QUESTIONS_TO_FETCH = 20;
 
     private DialogsManager mDialogsManager;
 
     private FetchQuestionsListUseCase mFetchQuestionsListUseCase;
-    private QuestionsListViewMvcImpl mViewMvc;
+    private QuestionsListViewMvc mViewMvc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mViewMvc = new QuestionsListViewMvcImpl(LayoutInflater.from(this), null);
-
-        Retrofit retrofit = ((MyApplication) getApplication()).getRetrofit();
-
-        mFetchQuestionsListUseCase = new FetchQuestionsListUseCase(retrofit);
+        mViewMvc = getCompositionRoot().getViewMvcFactory().newInstance(QuestionsListViewMvc.class, null);
+        mFetchQuestionsListUseCase = getCompositionRoot().getFetchQuestionsListUseCase();
+        mDialogsManager = getCompositionRoot().getDialogsManager();
     }
 
     @Override
@@ -40,7 +35,6 @@ public class QuestionListActivity extends AppCompatActivity implements
         super.onStart();
         mViewMvc.registerListener(this);
         mFetchQuestionsListUseCase.registerListener(this);
-
         mFetchQuestionsListUseCase.fetchLastActiveQuestionsAndNotify(NUM_OF_QUESTIONS_TO_FETCH);
     }
 

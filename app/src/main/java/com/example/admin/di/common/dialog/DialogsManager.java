@@ -1,4 +1,4 @@
-package com.example.admin.di.screens.screens.common.dialog;
+package com.example.admin.di.common.dialog;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

@@ -3,17 +3,13 @@ package com.example.admin.di.questiondetails;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 
-import com.example.admin.di.MyApplication;
 import com.example.admin.di.R;
-import com.example.admin.di.screens.ServerErrorDialogFragment;
-import com.example.admin.di.screens.screens.common.dialog.DialogsManager;
+import com.example.admin.di.common.BaseActivity;
+import com.example.admin.di.common.dialog.DialogsManager;
+import com.example.admin.di.common.dialog.ServerErrorDialogFragment;
 
-import retrofit2.Retrofit;
-
-public class QuestionDetailsActivity extends AppCompatActivity implements
+public class QuestionDetailsActivity extends BaseActivity implements
         QuestionDetailsViewMvc.Listener,FetchQuestionDetailsUseCase.Listener {
 
     public static final String EXTRA_QUESTION_ID = "EXTRA_QUESTION_ID";
@@ -36,25 +32,19 @@ public class QuestionDetailsActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_question_details);
 
-        mViewMvc = new QuestionDetailsViewMvcImpl(LayoutInflater.from(this), null);
-
+        mViewMvc = getCompositionRoot().getViewMvcFactory().newInstance(QuestionDetailsViewMvc.class, null);
         setContentView(mViewMvc.getRootView());
-
-        Retrofit retrofit = ((MyApplication) getApplication()).getRetrofit();
-
-        mFetchQuestionDetailsUseCase = new FetchQuestionDetailsUseCase(retrofit);
-
+        mFetchQuestionDetailsUseCase = getCompositionRoot().getFetchQuestionDetailsUseCase();
         //noinspection ConstantConditions
         mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);
-
-    }
+        mDialogsManager = getCompositionRoot().getDialogsManager();
+        }
 
     @Override
     protected void onStart() {
         super.onStart();
         mViewMvc.registerListener(this);
         mFetchQuestionDetailsUseCase.registerListener(this);
-
         mFetchQuestionDetailsUseCase.fetchQuestionDetailsAndNotify(mQuestionId);
     }
 

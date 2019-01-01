@@ -9,7 +9,6 @@ import com.example.admin.di.questions.StackOverflowApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class FetchQuestionDetailsUseCase extends BaseObservable<FetchQuestionDetailsUseCase.Listener> {
 
@@ -23,8 +22,8 @@ public class FetchQuestionDetailsUseCase extends BaseObservable<FetchQuestionDet
     @Nullable
     Call<SingleQuestionResponseSchema> mCall;
 
-    public FetchQuestionDetailsUseCase(Retrofit retrofit) {
-        mStackoverflowApi = retrofit.create(StackOverflowApi.class);
+    public FetchQuestionDetailsUseCase(StackOverflowApi stackoverflowApi) {
+        mStackoverflowApi = stackoverflowApi;
     }
 
     public void fetchQuestionDetailsAndNotify(String questionId) {

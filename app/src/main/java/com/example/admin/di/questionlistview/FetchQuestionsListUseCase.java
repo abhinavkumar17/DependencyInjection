@@ -13,7 +13,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class FetchQuestionsListUseCase extends BaseObservable<FetchQuestionsListUseCase.Listener> {
 
@@ -23,10 +22,6 @@ public class FetchQuestionsListUseCase extends BaseObservable<FetchQuestionsList
         void onFetchOfQuestionsSucceeded(List<Question> questions);
 
         void onFetchOfQuestionsFailed();
-    }
-
-    public FetchQuestionsListUseCase(Retrofit retrofit) {
-        mStackoverflowApi = retrofit.create(StackOverflowApi.class);
     }
 
     public FetchQuestionsListUseCase(StackOverflowApi stackoverflowApi) {

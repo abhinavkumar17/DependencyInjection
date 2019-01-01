@@ -2,30 +2,21 @@ package com.example.admin.di;
 
 import android.app.Application;
 
-import com.example.admin.di.questions.StackOverflowApi;
-
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import com.example.admin.di.puredependency.CompositionRoot;
 
 public class MyApplication extends Application {
-    private Retrofit mRetrofit;
-    private StackOverflowApi mStackoverflowApi;
 
+    CompositionRoot compositionRoot;
 
-    public Retrofit getRetrofit() {
-        if (mRetrofit == null) {
-            mRetrofit = new Retrofit.Builder()
-                    .baseUrl(Constants.BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
-        return mRetrofit;
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        compositionRoot = new CompositionRoot();
     }
 
-    public StackOverflowApi getStackoverflowApi() {
-        if (mStackoverflowApi == null) {
-            mStackoverflowApi = getRetrofit().create(StackOverflowApi.class);
-        }
-        return mStackoverflowApi;
+    public CompositionRoot getCompositionRoot() {
+        return compositionRoot;
     }
+
+
 }

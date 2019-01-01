@@ -1,4 +1,4 @@
-package com.example.admin.di.screens;
+package com.example.admin.di.common.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
